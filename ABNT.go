@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func AbntFormat(name string) (string, string, string) {
+func AbntFormat(name string) Structs.DataABNT {
 	var abnt string
 	var textABNTSmall string
 	var textABNTLong string
@@ -58,7 +58,12 @@ func AbntFormat(name string) (string, string, string) {
 
 	textABNTnoDot := strings.Replace(textABNTSmall, ".", "", -1)
 
-	return textABNTLong, textABNTnoDot, textABNTSmall
+	return Structs.DataABNT{
+		AuthorName:    name,
+		TextABNTLong:  textABNTLong,
+		TextABNTnoDot: textABNTnoDot,
+		TextABNTSmall: textABNTSmall,
+	}
 }
 
 func DocClassifierCSV(rawFilePath string, separator rune, nameResultFolder string) {
@@ -67,22 +72,14 @@ func DocClassifierCSV(rawFilePath string, separator rune, nameResultFolder strin
 	fmt.Println("Files created")
 }
 
-func createCSVs(raw []string, nameResultFolder string) []Structs.DataABNT {
+func createCSVs(raw []string, nameResultFolder string) {
 	var authorsABNT []Structs.DataABNT
 
 	for i := 0; i < len(raw); i++ {
-		textL, textD, textS := AbntFormat(raw[i])
-
-		data := Structs.DataABNT{
-			AuthorName:    raw[i],
-			TextABNTLong:  textL,
-			TextABNTnoDot: textD,
-			TextABNTSmall: textS,
-		}
-
-		authorsABNT = append(authorsABNT, data)
+		dataReturn := AbntFormat(raw[i])
+		authorsABNT = append(authorsABNT, dataReturn)
 	}
 
-	return authorsABNT
+	CSV.ExportCSV("filesOK", nameResultFolder, authorsABNT)
 
 }
