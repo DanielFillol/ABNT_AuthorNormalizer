@@ -66,7 +66,7 @@ func AbntFormat(name string) Structs.DataABNT {
 	}
 }
 
-func DocClassifierCSV(rawFilePath string, separator rune, nameResultFolder string) {
+func AbntFormatCSV(rawFilePath string, separator rune, nameResultFolder string) {
 	raw := CSV.ReadCsvFile(rawFilePath, separator)
 	createCSVs(raw, nameResultFolder)
 	fmt.Println("Files created")
