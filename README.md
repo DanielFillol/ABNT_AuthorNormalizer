@@ -5,7 +5,7 @@ Projeto que visa transformar o nome de um autor em formato ABNT
 ``` go get -u github.com/Darklabel91/ABNT_AuthorNormalizer ```
 
 ## Data Struct
-Os dados de retorno podem ser ```bool```, ```string```, ```int``` ou ```int``` , essa última é composta por:
+Os dados de retorno podem ser ```bool```, ```string```, ```int``` ou ```DataABNT``` , essa última é composta por:
 
 ``` 
 type DataABNT struct {
@@ -14,7 +14,6 @@ type DataABNT struct {
 	TextABNTnoDot string
 	TextABNTSmall string
 }
-
 ```
 
 - AuthorName: Nome do autor a ser normalizado
@@ -38,11 +37,11 @@ func main() {
 
 	authorName := "Otavio Luiz Rodrigues Júnior"
 
-	textABNTLong, textABNTnoDot, textABNTSmall := Author.AbntFormat(authorName)
+	ABNT := Author.AbntFormat(authorName)
 
-	fmt.Println(textABNTLong)
-	fmt.Println(textABNTnoDot)
-	fmt.Println(textABNTSmall)
+	fmt.Println(ABNT.TextABNTLong)
+	fmt.Println(ABNT.TextABNTnoDot)
+	fmt.Println(ABNT.TextABNTSmall)
 
 	//READING A CSV WITH AUTHOR'S
 
@@ -50,15 +49,18 @@ func main() {
 	separator := ','
 	resultFolder := "Result"
 
-	Author.DocClassifierCSV(rawPath, separator, resultFolder)
+	Author.AbntFormatCSV(rawPath, separator, resultFolder)
 
 }
 
  ```
 Retorno
 ``` 
-A
-B
+RODRIGUES JÚNIOR, Otavio Luiz 
+RODRIGUES JÚNIOR, O L 
+RODRIGUES JÚNIOR, O. L. 
+Files created
+
  ```
 
 ## Functions
