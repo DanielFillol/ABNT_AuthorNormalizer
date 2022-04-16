@@ -9,10 +9,10 @@ Os dados de retorno podem ser ```bool```, ```string```, ```int``` ou ```DataABNT
 
 ``` 
 type DataABNT struct {
-	AuthorName    string
-	TextABNTLong  string
-	TextABNTnoDot string
-	TextABNTSmall string
+	AuthorName    string `json:"AuthorName,omitempty"`
+	TextABNTLong  string `json:"TextABNTLong,omitempty"`
+	TextABNTnoDot string `json:"TextABNTnoDot,omitempty"`
+	TextABNTSmall string `json:"TextABNTSmall,omitempty"`
 }
 ```
 
