@@ -1,42 +1,41 @@
 package Functions
 
 import (
+	"errors"
 	"strings"
 )
 
-func SplitName(name string) ([]string, int) {
+func SplitName(name string) ([]string, int, error) {
 	text := strings.Split(name, " ")
 	namesQtd := len(text)
+	if len(text) < 2 {
+		err := errors.New("there are no \" \" in the name")
+		return nil, 0, err
+	}
 
-	return text, namesQtd
+	return text, namesQtd, nil
 }
 
 func JuniorName(name string) bool {
-	returnBool := false
-	var juniorNameArray []string
+	juniorNameArray := []string{"filho", "filha", "neto", "neta", "junior", "júnior", "jr", "jr.", "segundo", "segunda", "terceiro", "terceira"}
 
-	juniorNameArray = append(juniorNameArray, "filho", "filha", "neto", "neta", "junior", "júnior", "jr", "jr.", "segundo", "segunda", "terceiro", "terceira")
-
-	for i := 0; i < len(juniorNameArray); i++ {
-		if strings.ToLower(name) == juniorNameArray[i] {
-			returnBool = true
+	for _, junior := range juniorNameArray {
+		if strings.ToLower(name) == junior {
+			return true
 		}
 	}
 
-	return returnBool
+	return false
 }
 
 func Preposition(name string) bool {
-	returnBool := false
-	var preposicionArray []string
+	prepositionArray := []string{"do", "da", "de", "dos", "das", "e"}
 
-	preposicionArray = append(preposicionArray, "do", "da", "de", "dos", "das", "e")
-
-	for i := 0; i < len(preposicionArray); i++ {
-		if strings.ToLower(name) == preposicionArray[i] {
-			returnBool = true
+	for _, prepArray := range prepositionArray {
+		if strings.ToLower(name) == prepArray {
+			return true
 		}
 	}
 
-	return returnBool
+	return false
 }

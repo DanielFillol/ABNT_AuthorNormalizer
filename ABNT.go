@@ -8,20 +8,16 @@ import (
 	"strings"
 )
 
-func AbntFormat(name string) Structs.DataABNT {
-	var abnt string
-	var textABNTSmall string
-	var textABNTLong string
-
-	var finalName string
-	var sonName string
-	var initialNames []string
-	var initialLetters []string
-
-	splitNames, qtdNames := Functions.SplitName(name)
+func AbntFormat(name string) (Structs.DataABNT, error) {
+	splitNames, qtdNames, err := Functions.SplitName(name)
+	if err != nil {
+		return Structs.DataABNT{}, err
+	}
 
 	lastName := splitNames[qtdNames-1]
 
+	var finalName string
+	var sonName string
 	if Functions.JuniorName(lastName) == true {
 		finalName = splitNames[qtdNames-2]
 		sonName = splitNames[qtdNames-1]
@@ -30,6 +26,8 @@ func AbntFormat(name string) Structs.DataABNT {
 		sonName = ""
 	}
 
+	var initialNames []string
+	var initialLetters []string
 	for i := 0; i < len(splitNames); i++ {
 		if Functions.Preposition(splitNames[i]) == false && splitNames[i] != finalName && splitNames[i] != sonName {
 			initialLetters = append(initialLetters, splitNames[i][0:1]+". ")
@@ -39,14 +37,15 @@ func AbntFormat(name string) Structs.DataABNT {
 		}
 	}
 
+	var abnt string
 	if sonName != "" {
 		abnt = strings.ToUpper(finalName) + " " + strings.ToUpper(sonName) + ", "
 	} else {
 		abnt = strings.ToUpper(finalName) + ", "
 	}
 
-	textABNTSmall = abnt
-	textABNTLong = abnt
+	textABNTSmall := abnt
+	textABNTLong := abnt
 
 	for i := 0; i < len(initialLetters); i++ {
 		textABNTSmall += initialLetters[i]
@@ -63,23 +62,37 @@ func AbntFormat(name string) Structs.DataABNT {
 		TextABNTLong:  textABNTLong,
 		TextABNTnoDot: textABNTnoDot,
 		TextABNTSmall: textABNTSmall,
+	}, nil
+}
+
+func AbntFormatCSV(rawFilePath string, separator rune, nameResultFolder string) error {
+	raw, err := CSV.ReadCsvFile(rawFilePath, separator)
+	if err != nil {
+		return err
 	}
-}
-
-func AbntFormatCSV(rawFilePath string, separator rune, nameResultFolder string) {
-	raw := CSV.ReadCsvFile(rawFilePath, separator)
-	createCSVs(raw, nameResultFolder)
+	err = createCSVs(raw, nameResultFolder)
+	if err != nil {
+		return err
+	}
 	fmt.Println("Files created")
+	return nil
 }
 
-func createCSVs(raw []string, nameResultFolder string) {
+func createCSVs(raw []string, nameResultFolder string) error {
 	var authorsABNT []Structs.DataABNT
 
 	for i := 0; i < len(raw); i++ {
-		dataReturn := AbntFormat(raw[i])
+		dataReturn, err := AbntFormat(raw[i])
+		if err != nil {
+			return err
+		}
 		authorsABNT = append(authorsABNT, dataReturn)
 	}
 
-	CSV.ExportCSV("filesOK", nameResultFolder, authorsABNT)
+	err := CSV.ExportCSV("filesOK", nameResultFolder, authorsABNT)
+	if err != nil {
+		return err
+	}
 
+	return nil
 }

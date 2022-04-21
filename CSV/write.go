@@ -2,7 +2,6 @@ package CSV
 
 import (
 	"encoding/csv"
-	"github.com/Darklabel91/ABNT_AuthorNormalizer/Error"
 	"github.com/Darklabel91/ABNT_AuthorNormalizer/Structs"
 	"os"
 	"path/filepath"
@@ -15,11 +14,11 @@ func create(p string) (*os.File, error) {
 	return os.Create(p)
 }
 
-func ExportCSV(nameFile string, nameFolder string, abnt []Structs.DataABNT) {
-	var empData [][]string
+func ExportCSV(nameFile string, nameFolder string, abnt []Structs.DataABNT) error {
+	var authorReturn [][]string
 
 	head := []string{"Nome Autor", "ABNT Longo", "ABNT sem ponto", "ABNT com ponto"}
-	empData = append(empData, head)
+	authorReturn = append(authorReturn, head)
 
 	for i := 0; i < len(abnt); i++ {
 		final := []string{
@@ -28,16 +27,20 @@ func ExportCSV(nameFile string, nameFolder string, abnt []Structs.DataABNT) {
 			abnt[i].TextABNTnoDot,
 			abnt[i].TextABNTSmall,
 		}
-		empData = append(empData, final)
+		authorReturn = append(authorReturn, final)
 	}
 
 	csvFile, _ := create(nameFolder + "/" + nameFile + ".csv")
+
+	defer csvFile.Close()
+
 	csvWriter := csv.NewWriter(csvFile)
 
-	for _, empRow := range empData {
-		_ = csvWriter.Write(empRow)
+	for _, newAuthor := range authorReturn {
+		_ = csvWriter.Write(newAuthor)
 	}
+
 	csvWriter.Flush()
-	err := csvFile.Close()
-	Error.CheckError(err)
+
+	return nil
 }
