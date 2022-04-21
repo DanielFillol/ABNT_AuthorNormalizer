@@ -37,7 +37,10 @@ func main() {
 
 	authorName := "Otavio Luiz Rodrigues Júnior"
 
-	ABNT := Author.AbntFormat(authorName)
+	ABNT, err := Author.AbntFormat(authorName)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	fmt.Println(ABNT.TextABNTLong)
 	fmt.Println(ABNT.TextABNTnoDot)
@@ -49,10 +52,12 @@ func main() {
 	separator := ','
 	resultFolder := "Result"
 
-	Author.AbntFormatCSV(rawPath, separator, resultFolder)
+	err = Author.AbntFormatCSV(rawPath, separator, resultFolder)
+	if err != nil {
+	}
+	fmt.Println(err)
 
 }
-
  ```
 Retorno
 ``` 
