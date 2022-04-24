@@ -28,42 +28,42 @@ package main
 
 import (
 	"fmt"
-	Author "github.com/Darklabel91/ABNT_AuthorNormalizer"
+	"github.com/Darklabel91/ABNT_AuthorNormalizer/Abnt"
+	"github.com/Darklabel91/ABNT_AuthorNormalizer/CSV"
 )
 
 func main() {
 
-	//SINGLE USE OF THE CLASSIFIER
-
+	//Single use
 	authorName := "Otavio Luiz Rodrigues Júnior"
 
-	ABNT, err := Author.AbntFormat(authorName)
+	test, err := Abnt.TransformABNT(authorName)
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	fmt.Println(ABNT.TextABNTLong)
-	fmt.Println(ABNT.TextABNTnoDot)
-	fmt.Println(ABNT.TextABNTSmall)
+	fmt.Println(test.AuthorName)
+	fmt.Println(test.ABNT)
+	fmt.Println(test.ABNTShort)
 
-	//READING A CSV WITH AUTHOR'S
-
-	rawPath := "/Users/Desktop/Authors.csv"
+	//CSV use
+	//path := "/Users/Desktop/Authors.csv"
+	path := "/Users/danielfillol/Documents/GitHub/LegalDoc_Classifier/ABNT_AuthorNormalizer/CSV/authors.csv"
 	separator := ','
-	resultFolder := "Result"
+	nameResultFolder := "test"
 
-	err = Author.AbntFormatCSV(rawPath, separator, resultFolder)
+	err = CSV.TransformABNTCSV(path, separator, nameResultFolder)
 	if err != nil {
+		fmt.Println(err)
 	}
-	fmt.Println(err)
-
 }
  ```
 Retorno
 ``` 
-RODRIGUES JÚNIOR, Otavio Luiz 
-RODRIGUES JÚNIOR, O L 
-RODRIGUES JÚNIOR, O. L. 
+Otavio Luiz Rodrigues Júnior
+RODRIGUES JÚNIOR, Otavio Luiz
+RODRIGUES JÚNIOR, O. L.
+
 Files created
 
  ```
