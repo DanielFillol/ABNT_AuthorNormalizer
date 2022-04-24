@@ -5,46 +5,46 @@ import (
 	"strings"
 )
 
-//DataABNT main struct containing authors name, abnt format and short version of abnt.
-type DataABNT struct {
+//ABNTData main struct containing authors name, abnt format and short version of abnt.
+type ABNTData struct {
 	AuthorName string `json:"AuthorName,omitempty"`
 	ABNT       string `json:"abnt,omitempty"`
 	ABNTShort  string `json:"abnt_short,omitempty"`
 }
 
-//InitialABNT is Test struct that assemble the first part of abnt format with the last name and possible jr name
+//InitialABNT is a simple struct that assemble the first part of abnt format with the last name and possible jr name
 type InitialABNT struct {
 	ABNTFristPart string
 	LastName      string
 	JRName        string
 }
 
-//TransformABNT receives Test name and returns the same name on ABNT format
-func TransformABNT(authorName string) (DataABNT, error) {
+//TransformABNT receives author name and returns the same name on ABNT format
+func TransformABNT(authorName string) (ABNTData, error) {
 	words, err := splitName(authorName)
 	if err != nil {
-		return DataABNT{}, err
+		return ABNTData{}, err
 	}
 
 	initAbnt, err := returnInitialName(words)
 	if err != nil {
-		return DataABNT{}, err
+		return ABNTData{}, err
 	}
 
 	middleName, err := returnMiddleName(words, initAbnt)
 	if err != nil {
-		return DataABNT{}, err
+		return ABNTData{}, err
 	}
 
 	shortMiddleName, err := returnShortMiddleName(words, initAbnt)
 	if err != nil {
-		return DataABNT{}, err
+		return ABNTData{}, err
 	}
 
 	abnt := strings.TrimSpace(initAbnt.ABNTFristPart + middleName)
 	abntShort := strings.TrimSpace(initAbnt.ABNTFristPart + shortMiddleName)
 
-	return DataABNT{
+	return ABNTData{
 		AuthorName: authorName,
 		ABNT:       abnt,
 		ABNTShort:  abntShort,

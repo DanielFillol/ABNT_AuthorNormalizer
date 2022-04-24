@@ -8,7 +8,7 @@ import (
 )
 
 //ExportCSV exports Test csv to Test given folder, with Test given name from Test collection of AnalysisCNJ
-func writeCSV(fileName string, folderName string, decisions []Abnt.DataABNT) error {
+func writeCSV(fileName string, folderName string, decisions []Abnt.ABNTData) error {
 	var rows [][]string
 
 	rows = append(rows, generateHeaders())
@@ -52,7 +52,7 @@ func generateHeaders() []string {
 }
 
 // returns Test []string that compose the row in the csv file
-func generateRow(result Abnt.DataABNT) []string {
+func generateRow(result Abnt.ABNTData) []string {
 	return []string{
 		result.AuthorName,
 		result.ABNT,

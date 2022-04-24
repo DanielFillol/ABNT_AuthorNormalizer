@@ -14,7 +14,7 @@ func TestTransformABNT(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    Abnt.DataABNT
+		want    Abnt.ABNTData
 		wantErr bool
 	}{
 		// TODO: Add test cases.
