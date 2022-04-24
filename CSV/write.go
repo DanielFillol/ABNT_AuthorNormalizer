@@ -2,45 +2,60 @@ package CSV
 
 import (
 	"encoding/csv"
-	"github.com/Darklabel91/ABNT_AuthorNormalizer/Structs"
+	"github.com/Darklabel91/ABNT_AuthorNormalizer/Abnt"
 	"os"
 	"path/filepath"
 )
 
-func create(p string) (*os.File, error) {
+//ExportCSV exports Test csv to Test given folder, with Test given name from Test collection of AnalysisCNJ
+func writeCSV(fileName string, folderName string, decisions []Abnt.DataABNT) error {
+	var rows [][]string
+
+	rows = append(rows, generateHeaders())
+
+	for _, decision := range decisions {
+		rows = append(rows, generateRow(decision))
+	}
+
+	cf, err := createFile(folderName + "/" + fileName + ".csv")
+	if err != nil {
+		return err
+	}
+
+	defer cf.Close()
+
+	w := csv.NewWriter(cf)
+
+	err = w.WriteAll(rows)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// create csv file from operating system
+func createFile(p string) (*os.File, error) {
 	if err := os.MkdirAll(filepath.Dir(p), 0770); err != nil {
 		return nil, err
 	}
 	return os.Create(p)
 }
 
-func ExportCSV(nameFile string, nameFolder string, abnt []Structs.DataABNT) error {
-	var authorReturn [][]string
-
-	head := []string{"Nome Autor", "ABNT Longo", "ABNT sem ponto", "ABNT com ponto"}
-	authorReturn = append(authorReturn, head)
-
-	for i := 0; i < len(abnt); i++ {
-		final := []string{
-			abnt[i].AuthorName,
-			abnt[i].TextABNTLong,
-			abnt[i].TextABNTnoDot,
-			abnt[i].TextABNTSmall,
-		}
-		authorReturn = append(authorReturn, final)
+// generate the necessary headers for csv file
+func generateHeaders() []string {
+	return []string{
+		"Nome Autor",
+		"ABNT",
+		"ABNT Abreviado",
 	}
+}
 
-	csvFile, _ := create(nameFolder + "/" + nameFile + ".csv")
-
-	defer csvFile.Close()
-
-	csvWriter := csv.NewWriter(csvFile)
-
-	for _, newAuthor := range authorReturn {
-		_ = csvWriter.Write(newAuthor)
+// returns Test []string that compose the row in the csv file
+func generateRow(result Abnt.DataABNT) []string {
+	return []string{
+		result.AuthorName,
+		result.ABNT,
+		result.ABNTShort,
 	}
-
-	csvWriter.Flush()
-
-	return nil
 }
