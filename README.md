@@ -1,5 +1,5 @@
 # ABNT_AuthorNormalizer
-Projeto que visa transformar o nome de um autor em formato ABNT
+Projeto que visa transformar o nome de um autor em formato [ABNT](https://www.eco.unicamp.br/biblioteca/images/arquivos/pdf/NBR_6023__2002_-_Referencias.pdf)
 
 ## Instal
 ``` go get -u github.com/Darklabel91/ABNT_AuthorNormalizer ```
