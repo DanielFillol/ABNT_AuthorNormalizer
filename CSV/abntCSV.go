@@ -12,7 +12,7 @@ func TransformABNTCSV(rawFilePath string, separator rune, nameResultFolder strin
 	if err != nil {
 		return err
 	}
-	err = createCSVs(raw, nameResultFolder)
+	err = returnCSVABNTAuthor(raw, nameResultFolder)
 	if err != nil {
 		return err
 	}
@@ -20,20 +20,21 @@ func TransformABNTCSV(rawFilePath string, separator rune, nameResultFolder strin
 	return nil
 }
 
-//createCSVs executes TransformABNT function from a []string
-func createCSVs(raw []string, nameResultFolder string) error {
+//returnCSVABNTAuthor executes TransformABNT function from a []string
+func returnCSVABNTAuthor(raw []string, nameResultFolder string) error {
 	var authorsABNT []Abnt.ABNTData
 
-	for i := 0; i < len(raw); i++ {
-		dataReturn, err := Abnt.TransformABNT(raw[i])
+	for _, author := range raw {
+		dataReturn, err := Abnt.TransformABNT(author)
 		if err != nil {
 			authorsABNT = append(authorsABNT, Abnt.ABNTData{
-				AuthorName: err.Error(),
+				AuthorName: author,
 				ABNT:       err.Error(),
 				ABNTShort:  err.Error(),
 			})
 		}
 		authorsABNT = append(authorsABNT, dataReturn)
+
 	}
 
 	err := writeCSV("filesOK", nameResultFolder, authorsABNT)
