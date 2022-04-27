@@ -1,4 +1,4 @@
-package CSV
+package AbntCSV
 
 import (
 	"encoding/csv"
@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-//ExportCSV exports Test csv to Test given folder, with Test given name from Test collection of AnalysisCNJ
+//writeCSV exports Test csv to Test given folder, with Test given name from Test collection of AnalysisCNJ
 func writeCSV(fileName string, folderName string, decisions []Abnt.ABNTData) error {
 	var rows [][]string
 
@@ -51,7 +51,7 @@ func generateHeaders() []string {
 	}
 }
 
-// returns Test []string that compose the row in the csv file
+// returns []string that compose the row in the csv file
 func generateRow(result Abnt.ABNTData) []string {
 	return []string{
 		result.AuthorName,

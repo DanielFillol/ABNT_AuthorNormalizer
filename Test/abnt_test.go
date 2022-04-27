@@ -2,7 +2,7 @@ package Abnt
 
 import (
 	"github.com/Darklabel91/ABNT_AuthorNormalizer/Abnt"
-	"github.com/Darklabel91/ABNT_AuthorNormalizer/CSV"
+	"github.com/Darklabel91/ABNT_AuthorNormalizer/AbntCSV"
 	"reflect"
 	"testing"
 )
@@ -48,7 +48,7 @@ func TestTransformABNTCSV(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := CSV.TransformABNTCSV(tt.args.rawFilePath, tt.args.separator, tt.args.nameResultFolder); (err != nil) != tt.wantErr {
+			if err := AbntCSV.TransformABNTCSV(tt.args.rawFilePath, tt.args.separator, tt.args.nameResultFolder); (err != nil) != tt.wantErr {
 				t.Errorf("TransformABNTCSV() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})

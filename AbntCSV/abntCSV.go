@@ -1,4 +1,4 @@
-package CSV
+package AbntCSV
 
 import (
 	"fmt"
@@ -32,9 +32,9 @@ func returnCSVABNTAuthor(raw []string, nameResultFolder string) error {
 				ABNT:       err.Error(),
 				ABNTShort:  err.Error(),
 			})
+		} else {
+			authorsABNT = append(authorsABNT, dataReturn)
 		}
-		authorsABNT = append(authorsABNT, dataReturn)
-
 	}
 
 	err := writeCSV("filesOK", nameResultFolder, authorsABNT)
