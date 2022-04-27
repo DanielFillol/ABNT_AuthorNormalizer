@@ -27,7 +27,7 @@ package main
 import (
 	"fmt"
 	"github.com/Darklabel91/ABNT_AuthorNormalizer/Abnt"
-	"github.com/Darklabel91/ABNT_AuthorNormalizer/CSV"
+	"github.com/Darklabel91/ABNT_AuthorNormalizer/AbntCSV"
 )
 
 func main() {
@@ -50,7 +50,7 @@ func main() {
 	separator := ','
 	nameResultFolder := "test"
 
-	err = CSV.TransformABNTCSV(path, separator, nameResultFolder)
+	err = AbntCSV.TransformABNTCSV(path, separator, nameResultFolder)
 	if err != nil {
 		fmt.Println(err)
 	}
