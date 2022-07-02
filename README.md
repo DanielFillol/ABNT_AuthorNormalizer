@@ -1,12 +1,11 @@
 # ABNT_AuthorNormalizer
-Projeto que visa transformar o nome de um autor em formato [ABNT](https://www.eco.unicamp.br/biblioteca/images/arquivos/pdf/NBR_6023__2002_-_Referencias.pdf)
+Packge to transform authors of papers and books in [ABNT](https://www.eco.unicamp.br/biblioteca/images/arquivos/pdf/NBR_6023__2002_-_Referencias.pdf) (Brazilian Association of Technical Standards) format.
 
 ## Instal
 ``` go get -u github.com/Darklabel91/ABNT_AuthorNormalizer ```
 
 ## Data Struct
-Os dados de retorno podem ser ```bool```, ```string```, ```int``` ou ```ABNTData``` , essa última é composta por:
-
+Return data can be: ```bool```, ```string```, ```int``` or ```ABNTData```, the last
 ``` 
 type ABNTData struct {
 	AuthorName string `json:"AuthorName,omitempty"`
@@ -15,12 +14,11 @@ type ABNTData struct {
 }
 ```
 
-- AuthorName: Nome do autor a ser normalizado
-- TextABNTLong: Nome do Autor em formato ABNT tradicional
-- ABNTShort: Nome do Autor em formato ABNT tradicional com ponto 
+- AuthorName: name to be normalized
+- TextABNTLong: name in ABNT format
+- ABNTShort: name on simple ABNT format
 
 ## Example
-
 ``` 
 package main
 
@@ -56,7 +54,7 @@ func main() {
 	}
 }
  ```
-Retorno
+Return
 ``` 
 Otavio Luiz Rodrigues Júnior
 RODRIGUES JÚNIOR, Otavio Luiz
@@ -69,11 +67,7 @@ Files created
 ## Functions
 
 Main Function:
-- TransformABNT(authorName string) -> retorna uma *ABNTData* necessitando apenas de um nome a ser processado
-- TransformABNTCSV(rawFilePath string, separator rune, nameResultFolder string) -> retorna um CSV para uma pasta do projeto com o nome apontado em *resultFolder*. Para utilizar a função basta apontar o caminho do CSV (que deve conter uma única coluna com nome do autor) e o separador (';' ',' etc..)
+- TransformABNT(authorName string) -> return *ABNTData* for a given name.
+- TransformABNTCSV(rawFilePath string, separator rune, nameResultFolder string) -> return CSV to the given folder on param *resultFolder*. The .csv file given on param *rawFilePath* must contain only a single columm with names.a
 
 
-## Considerações
-A) Esse projeto foi criado de forma voluntária, você pode contribuir de qualquer modo. Se encontrar uma falha, não hesite em criar um “issue” ou  procure corrigir você mesma(o) o erro e dar um “pull request”.
-
-B) use os dados baixados para agregar valor, como por exemplo, para realizar análises ou publicar artigos, fazer inferências, elaborar recomendações aos poderes públicos etc. Baixar esses dados para reproduzi-los em sua página web é tirar proveito do trabalho alheio, mesmo sendo esses dados públicos.
