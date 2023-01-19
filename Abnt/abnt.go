@@ -7,10 +7,11 @@ import (
 
 //ABNTData main struct containing authors name, abnt format and short version of abnt.
 type ABNTData struct {
-	AuthorName   string `json:"AuthorName,omitempty"`
-	ABNT         string `json:"abnt,omitempty"`
-	ABNTShort    string `json:"abnt_short,omitempty"`
-	FirstLetters string `json:"abnt_firstLetters,omitempty"`
+	AuthorName                string `json:"AuthorName,omitempty"`
+	ABNT                      string `json:"abnt,omitempty"`
+	ABNTShort                 string `json:"abnt_short,omitempty"`
+	FirstLetters              string `json:"abnt_firstLetters,omitempty"`
+	FirstLettersButCompanySig string `json:"abnt_firstLettersButCompanySig,omitempty"`
 }
 
 //InitialABNT is a simple struct that assemble the first part of abnt format with the last name and possible jr name
@@ -47,20 +48,27 @@ func TransformABNT(authorName string) (ABNTData, error) {
 		return ABNTData{}, err
 	}
 
+	firstCompany, err := returnInitialsCompany(words)
+	if err != nil {
+		return ABNTData{}, err
+	}
+
 	abnt := strings.TrimSpace(initAbnt.ABNTFristPart + middleName)
 	abntShort := strings.TrimSpace(initAbnt.ABNTFristPart + shortMiddleName)
 	firstLetters := firstOnly
+	company := firstCompany
 
 	return ABNTData{
-		AuthorName:   authorName,
-		ABNT:         abnt,
-		ABNTShort:    abntShort,
-		FirstLetters: firstLetters,
+		AuthorName:                authorName,
+		ABNT:                      abnt,
+		ABNTShort:                 abntShort,
+		FirstLetters:              firstLetters,
+		FirstLettersButCompanySig: company,
 	}, nil
 
 }
 
-//return names initials without prepositions regardless of jr name
+//return names initials without prepositions regardless of company names
 func returnInitials(words []string) (string, error) {
 	if len(words) == 0 {
 		return "", errors.New("error on separator")
@@ -74,6 +82,38 @@ func returnInitials(words []string) (string, error) {
 	}
 
 	return initials, nil
+}
+
+//return names initials without prepositions and company names
+func returnInitialsCompany(words []string) (string, error) {
+	if len(words) == 0 {
+		return "", errors.New("error on separator")
+	}
+
+	var initials string
+	for _, name := range words {
+		if isCompany(name) != true {
+			if isPreposition(name) != true {
+				initials += strings.ToUpper(name[0:1]) + ". "
+			}
+		}
+
+	}
+
+	return initials, nil
+}
+
+//return true if company names founded
+func isCompany(word string) bool {
+	companyNames := []string{"ltda", "mei", "slu", "s/a", "s.a", "s-a"}
+
+	for _, prepArray := range companyNames {
+		if strings.ToLower(word) == prepArray {
+			return true
+		}
+	}
+
+	return false
 }
 
 //assemble the first part of ABNT format containing the last name and eventually the jrName

@@ -49,6 +49,7 @@ func generateHeaders() []string {
 		"ABNT",
 		"ABNT Abreviado",
 		"Iniciais",
+		"Iniciais Companias",
 	}
 }
 
@@ -59,5 +60,6 @@ func generateRow(result Abnt.ABNTData) []string {
 		result.ABNT,
 		result.ABNTShort,
 		result.FirstLetters,
+		result.FirstLettersButCompanySig,
 	}
 }
