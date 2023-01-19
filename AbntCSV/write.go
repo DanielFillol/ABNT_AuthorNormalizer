@@ -48,6 +48,7 @@ func generateHeaders() []string {
 		"Nome Autor",
 		"ABNT",
 		"ABNT Abreviado",
+		"Iniciais",
 	}
 }
 
@@ -57,5 +58,6 @@ func generateRow(result Abnt.ABNTData) []string {
 		result.AuthorName,
 		result.ABNT,
 		result.ABNTShort,
+		result.FirstLetters,
 	}
 }
