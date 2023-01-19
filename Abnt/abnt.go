@@ -7,9 +7,10 @@ import (
 
 //ABNTData main struct containing authors name, abnt format and short version of abnt.
 type ABNTData struct {
-	AuthorName string `json:"AuthorName,omitempty"`
-	ABNT       string `json:"abnt,omitempty"`
-	ABNTShort  string `json:"abnt_short,omitempty"`
+	AuthorName   string `json:"AuthorName,omitempty"`
+	ABNT         string `json:"abnt,omitempty"`
+	ABNTShort    string `json:"abnt_short,omitempty"`
+	FirstLetters string `json:"abnt_firstLetters,omitempty"`
 }
 
 //InitialABNT is a simple struct that assemble the first part of abnt format with the last name and possible jr name
@@ -41,15 +42,38 @@ func TransformABNT(authorName string) (ABNTData, error) {
 		return ABNTData{}, err
 	}
 
+	firstOnly, err := returnInitials(words)
+	if err != nil {
+		return ABNTData{}, err
+	}
+
 	abnt := strings.TrimSpace(initAbnt.ABNTFristPart + middleName)
 	abntShort := strings.TrimSpace(initAbnt.ABNTFristPart + shortMiddleName)
+	firstLetters := firstOnly
 
 	return ABNTData{
-		AuthorName: authorName,
-		ABNT:       abnt,
-		ABNTShort:  abntShort,
+		AuthorName:   authorName,
+		ABNT:         abnt,
+		ABNTShort:    abntShort,
+		FirstLetters: firstLetters,
 	}, nil
 
+}
+
+//return names initials without prepositions regardless of jr name
+func returnInitials(words []string) (string, error) {
+	if len(words) == 0 {
+		return "", errors.New("error on separator")
+	}
+
+	var initials string
+	for _, name := range words {
+		if isPreposition(name) != true {
+			initials += strings.ToUpper(name[0:1]) + ". "
+		}
+	}
+
+	return initials, nil
 }
 
 //assemble the first part of ABNT format containing the last name and eventually the jrName
