@@ -8,15 +8,17 @@ Packge to transform authors of papers and books in [ABNT](https://www.eco.unicam
 Return data can be: ```bool```, ```string```, ```int``` or ```ABNTData```, the last
 ``` 
 type ABNTData struct {
-	AuthorName string `json:"AuthorName,omitempty"`
-	ABNT       string `json:"abnt,omitempty"`
-	ABNTShort  string `json:"abnt_short,omitempty"`
+	AuthorName   string `json:"AuthorName,omitempty"`
+	ABNT         string `json:"abnt,omitempty"`
+	ABNTShort    string `json:"abnt_short,omitempty"`
+	FirstLetters string `json:"abnt_firstLetters,omitempty"`
 }
 ```
 
 - AuthorName: name to be normalized
 - TextABNTLong: name in ABNT format
 - ABNTShort: name on simple ABNT format
+- FirstLetters: only the initials of a name, regardless of jr name
 
 ## Example
 ``` 
@@ -59,6 +61,7 @@ Return
 Otavio Luiz Rodrigues Júnior
 RODRIGUES JÚNIOR, Otavio Luiz
 RODRIGUES JÚNIOR, O. L.
+O. L. R. J.
 
 Files created
 
