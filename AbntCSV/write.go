@@ -49,7 +49,7 @@ func generateHeaders() []string {
 		"ABNT",
 		"ABNT Abreviado",
 		"Iniciais",
-		"Iniciais Companias",
+		"Iniciais Companhias",
 	}
 }
 
